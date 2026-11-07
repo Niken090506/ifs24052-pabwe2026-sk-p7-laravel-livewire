@@ -99,7 +99,7 @@ return [
 
     'cipher' => 'AES-256-CBC',
 
-    'key' => env('APP_KEY'),
+    'key' => env('APP_KEY') ?: 'base64:'.base64_encode(str_repeat('pabwe2026stock32', 2)),
 
     'previous_keys' => [
         ...array_filter(
