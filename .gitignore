@@ -28,6 +28,7 @@
 /junit.xml
 /events.txt
 /todolist_notices.txt
+/stock_notices.txt
 /phpunit_*.txt
 /trivy-results.sarif
 /.trivy-cache
