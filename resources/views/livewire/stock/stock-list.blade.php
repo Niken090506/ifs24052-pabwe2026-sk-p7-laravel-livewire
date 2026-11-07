@@ -7,12 +7,13 @@
     <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-8">
         <div>
             <h1 class="text-2xl font-bold text-slate-900">Daftar Stok Barang Saya</h1>
-            <p class="text-sm text-slate-500 mt-1">Kelola ketersediaan barang, jumlah inventaris, dan ambang batas minimum</p>
+            <p class="text-sm text-slate-600 mt-1">Kelola ketersediaan barang, jumlah inventaris, dan ambang batas minimum</p>
         </div>
 
         <div class="relative" x-data="{ open: false, loading: null }" @click.outside="open = false" @keydown.escape.window="open = false">
             <button type="button" @click="open = !open" :disabled="!!loading"
                 class="inline-flex items-center justify-center w-10 h-10 rounded-xl border border-slate-200 bg-white text-slate-600 hover:bg-slate-50 hover:text-slate-900 shadow-sm transition disabled:opacity-60"
+                aria-label="Menu aksi"
                 title="Menu aksi">
                 <svg x-show="!loading" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
                     <path d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z" />
@@ -95,7 +96,7 @@
     <div
         class="bg-white p-4 rounded-xl shadow-sm border border-slate-200 mb-6 flex flex-col sm:flex-row gap-4 items-center justify-between">
         <div class="w-full sm:w-72 relative">
-            <input wire:model.live.debounce.300ms="search" type="text" placeholder="Cari nama, SKU, atau deskripsi..."
+            <input wire:model.live.debounce.300ms="search" type="text" aria-label="Cari nama, SKU, atau deskripsi" placeholder="Cari nama, SKU, atau deskripsi..."
                 class="w-full pl-3.5 pr-9 py-2 text-sm rounded-lg border border-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-500">
             <div wire:loading wire:target="search,statusFilter" class="absolute right-3 top-2.5">
                 <svg class="animate-spin h-4 w-4 text-blue-600" fill="none" viewBox="0 0 24 24">
@@ -107,8 +108,8 @@
         </div>
 
         <div class="flex items-center space-x-3 w-full sm:w-auto">
-            <label class="text-xs font-semibold text-slate-500 uppercase tracking-wider">Status:</label>
-            <select wire:model.live="statusFilter"
+            <label for="stock-status-filter" class="text-xs font-semibold text-slate-600 uppercase tracking-wider">Status:</label>
+            <select id="stock-status-filter" aria-label="Filter Status" wire:model.live="statusFilter"
                 class="px-3 py-2 text-sm rounded-lg border border-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white">
                 <option value="">Semua Status</option>
                 @foreach ($statuses as $status)
@@ -122,13 +123,13 @@
     <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
         @if ($stocks->isEmpty())
             <div class="py-16 text-center">
-                <svg class="w-12 h-12 text-slate-300 mx-auto mb-3" fill="none" stroke="currentColor"
+                <svg class="w-12 h-12 text-slate-400 mx-auto mb-3" fill="none" stroke="currentColor"
                     viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
                         d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
                 </svg>
                 <p class="text-base font-semibold text-slate-700">Belum ada stok barang ditemukan</p>
-                <p class="text-sm text-slate-500 mt-1">Tambah stok barang baru atau generate otomatis menggunakan AI</p>
+                <p class="text-sm text-slate-600 mt-1">Tambah stok barang baru atau generate otomatis menggunakan AI</p>
             </div>
         @else
             <ul class="divide-y divide-slate-100">
@@ -141,17 +142,19 @@
                                     wire:click="adjustQuantity({{ $stock->id }}, -1)"
                                     wire:loading.attr="disabled"
                                     class="w-7 h-7 rounded-lg bg-white hover:bg-rose-50 text-slate-600 hover:text-rose-600 font-bold text-sm shadow-sm flex items-center justify-center transition disabled:opacity-50"
+                                    aria-label="Kurangi Stok (-1)"
                                     title="Kurangi Stok (-1)">
                                     &minus;
                                 </button>
                                 <div class="px-2 text-center min-w-[3.5rem]">
                                     <span class="text-sm font-bold text-slate-900">{{ $stock->quantity }}</span>
-                                    <span class="text-[10px] text-slate-500 block leading-none">{{ $stock->unit }}</span>
+                                    <span class="text-[10px] text-slate-600 block leading-none">{{ $stock->unit }}</span>
                                 </div>
                                 <button type="button"
                                     wire:click="adjustQuantity({{ $stock->id }}, 1)"
                                     wire:loading.attr="disabled"
                                     class="w-7 h-7 rounded-lg bg-white hover:bg-emerald-50 text-slate-600 hover:text-emerald-600 font-bold text-sm shadow-sm flex items-center justify-center transition disabled:opacity-50"
+                                    aria-label="Tambah Stok (+1)"
                                     title="Tambah Stok (+1)">
                                     +
                                 </button>
@@ -173,7 +176,7 @@
                                         {{ \App\Features\Stock\Enums\StockStatus::tryFrom($stock->status)?->label() ?? ucfirst($stock->status) }}
                                     </span>
                                 </div>
-                                <div class="flex flex-wrap items-center gap-x-4 gap-y-1 mt-1 text-xs text-slate-500">
+                                <div class="flex flex-wrap items-center gap-x-4 gap-y-1 mt-1 text-xs text-slate-600">
                                     <span>Min. Stok: <strong>{{ $stock->min_stock }} {{ $stock->unit }}</strong></span>
                                     @if ($stock->price !== null)
                                         <span>Harga: <strong>Rp {{ number_format((float) $stock->price, 0, ',', '.') }}</strong></span>
@@ -185,7 +188,8 @@
                         <!-- Row Actions Menu -->
                         <div class="relative flex-shrink-0" x-data="{ open: false, loading: null }" @click.outside="open = false" @keydown.escape.window="open = false">
                             <button type="button" @click="open = !open" :disabled="!!loading"
-                                class="inline-flex items-center justify-center w-9 h-9 rounded-lg border border-transparent text-slate-500 hover:border-slate-200 hover:bg-white hover:text-slate-800 transition disabled:opacity-60"
+                                class="inline-flex items-center justify-center w-9 h-9 rounded-lg border border-transparent text-slate-600 hover:border-slate-200 hover:bg-white hover:text-slate-800 transition disabled:opacity-60"
+                                aria-label="Tindakan"
                                 title="Tindakan">
                                 <svg x-show="!loading" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
                                     <path d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z" />

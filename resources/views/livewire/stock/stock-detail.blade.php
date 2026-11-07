@@ -6,7 +6,7 @@
     <!-- Top Navigation Header -->
     <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
         <div class="flex items-center space-x-3">
-            <a href="{{ route('stocks.index') }}" class="p-2 rounded-xl text-slate-500 hover:text-slate-800 hover:bg-slate-200 transition" title="Kembali ke Daftar Stok">
+            <a href="{{ route('stocks.index') }}" aria-label="Kembali ke Daftar Stok" class="p-2 rounded-xl text-slate-600 hover:text-slate-800 hover:bg-slate-200 transition" title="Kembali ke Daftar Stok">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
                 </svg>
@@ -23,7 +23,7 @@
                         {{ \App\Features\Stock\Enums\StockStatus::tryFrom($stock->status)?->label() ?? ucfirst($stock->status) }}
                     </span>
                 </div>
-                <p class="text-xs text-slate-500 mt-0.5">Dibuat pada {{ $stock->created_at ? $stock->created_at->format('d M Y H:i') : '-' }}</p>
+                <p class="text-xs text-slate-600 mt-0.5">Dibuat pada {{ $stock->created_at ? $stock->created_at->format('d M Y H:i') : '-' }}</p>
             </div>
         </div>
 
@@ -32,12 +32,14 @@
             <div class="inline-flex items-center space-x-1 bg-white border border-slate-200 rounded-lg p-1 shadow-sm">
                 <button type="button" wire:click="adjustQuantity(-1)" wire:loading.attr="disabled"
                     class="w-7 h-7 rounded bg-slate-100 hover:bg-rose-50 text-slate-700 hover:text-rose-600 font-bold text-sm flex items-center justify-center transition disabled:opacity-50"
+                    aria-label="Kurangi Stok (-1)"
                     title="Kurangi Stok (-1)">
                     &minus;
                 </button>
                 <span class="px-2.5 text-xs font-bold text-slate-800">{{ $stock->quantity }} {{ $stock->unit }}</span>
                 <button type="button" wire:click="adjustQuantity(1)" wire:loading.attr="disabled"
                     class="w-7 h-7 rounded bg-slate-100 hover:bg-emerald-50 text-slate-700 hover:text-emerald-600 font-bold text-sm flex items-center justify-center transition disabled:opacity-50"
+                    aria-label="Tambah Stok (+1)"
                     title="Tambah Stok (+1)">
                     +
                 </button>
@@ -56,11 +58,11 @@
             </button>
 
             <!-- Delete Button -->
-            <button wire:click="confirmDeleteStock" wire:loading.attr="disabled" class="inline-flex items-center space-x-1 px-3 py-2 bg-rose-50 hover:bg-rose-100 text-rose-600 border border-rose-200 text-xs font-semibold rounded-lg transition disabled:opacity-75">
-                <svg wire:loading.remove wire:target="confirmDeleteStock" class="w-4 h-4 text-rose-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <button wire:click="confirmDeleteStock" wire:loading.attr="disabled" class="inline-flex items-center space-x-1 px-3 py-2 bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-200 text-xs font-semibold rounded-lg transition disabled:opacity-75">
+                <svg wire:loading.remove wire:target="confirmDeleteStock" class="w-4 h-4 text-rose-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
                 </svg>
-                <svg wire:loading wire:target="confirmDeleteStock" class="animate-spin w-4 h-4 text-rose-600" fill="none" viewBox="0 0 24 24">
+                <svg wire:loading wire:target="confirmDeleteStock" class="animate-spin w-4 h-4 text-rose-700" fill="none" viewBox="0 0 24 24">
                     <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
                     <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
                 </svg>
@@ -71,7 +73,7 @@
 
     <!-- Cover Stock Section -->
     <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden mb-8">
-        <input type="file" wire:model="coverPhoto" id="coverPhotoInput" accept="image/*" class="hidden">
+        <input type="file" wire:model="coverPhoto" id="coverPhotoInput" aria-label="Upload Foto Sampul" accept="image/*" class="hidden">
 
         @if ($stock->cover_image_path && \Illuminate\Support\Facades\Storage::disk('public')->exists($stock->cover_image_path))
             <div class="relative group h-64 sm:h-80 w-full bg-slate-900 overflow-hidden">
@@ -99,8 +101,8 @@
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
                     </svg>
                 </div>
-                <h3 class="text-sm font-bold text-slate-800">Tambahkan Foto Sampul untuk Barang Ini</h3>
-                <p class="text-xs text-slate-400 mt-1 max-w-sm">Mendukung format gambar PNG, JPG, GIF hingga ukuran 5MB untuk visualisasi fisik barang.</p>
+                <h2 class="text-sm font-bold text-slate-800">Tambahkan Foto Sampul untuk Barang Ini</h2>
+                <p class="text-xs text-slate-600 mt-1 max-w-sm">Mendukung format gambar PNG, JPG, GIF hingga ukuran 5MB untuk visualisasi fisik barang.</p>
                 
                 <button type="button" onclick="document.getElementById('coverPhotoInput').click()" class="mt-4 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold rounded-xl shadow-sm transition flex items-center space-x-1.5">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
@@ -124,35 +126,35 @@
         <!-- Metadata Overview Cards -->
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
             <div class="bg-white p-4 rounded-xl shadow-sm border border-slate-200">
-                <span class="text-xs font-semibold text-slate-400 uppercase tracking-wider block mb-1">Status Stok</span>
+                <span class="text-xs font-semibold text-slate-600 uppercase tracking-wider block mb-1">Status Stok</span>
                 <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold border {{ \App\Features\Stock\Enums\StockStatus::tryFrom($stock->status)?->badgeClass() ?? 'bg-slate-100 text-slate-700' }}">
                     {{ \App\Features\Stock\Enums\StockStatus::tryFrom($stock->status)?->label() ?? ucfirst($stock->status) }}
                 </span>
             </div>
 
             <div class="bg-white p-4 rounded-xl shadow-sm border border-slate-200">
-                <span class="text-xs font-semibold text-slate-400 uppercase tracking-wider block mb-1">Jumlah & Satuan</span>
+                <span class="text-xs font-semibold text-slate-600 uppercase tracking-wider block mb-1">Jumlah & Satuan</span>
                 <div class="text-sm font-bold text-slate-900">
                     {{ $stock->quantity }} {{ $stock->unit }}
                 </div>
             </div>
 
             <div class="bg-white p-4 rounded-xl shadow-sm border border-slate-200">
-                <span class="text-xs font-semibold text-slate-400 uppercase tracking-wider block mb-1">Batas Minimum</span>
+                <span class="text-xs font-semibold text-slate-600 uppercase tracking-wider block mb-1">Batas Minimum</span>
                 <div class="text-sm font-semibold text-slate-800">
                     {{ $stock->min_stock }} {{ $stock->unit }}
                 </div>
             </div>
 
             <div class="bg-white p-4 rounded-xl shadow-sm border border-slate-200">
-                <span class="text-xs font-semibold text-slate-400 uppercase tracking-wider block mb-1">Harga Satuan</span>
+                <span class="text-xs font-semibold text-slate-600 uppercase tracking-wider block mb-1">Harga Satuan</span>
                 <div class="text-sm font-semibold text-slate-800">
                     {{ $stock->price !== null ? 'Rp ' . number_format((float) $stock->price, 0, ',', '.') : 'Tidak ditentukan' }}
                 </div>
             </div>
 
             <div class="bg-white p-4 rounded-xl shadow-sm border border-slate-200">
-                <span class="text-xs font-semibold text-slate-400 uppercase tracking-wider block mb-1">Terakhir Diperbarui</span>
+                <span class="text-xs font-semibold text-slate-600 uppercase tracking-wider block mb-1">Terakhir Diperbarui</span>
                 <div class="text-sm font-semibold text-slate-800">
                     {{ $stock->updated_at ? $stock->updated_at->format('d M Y H:i') : '-' }}
                 </div>
@@ -164,9 +166,9 @@
             <div class="flex items-center justify-between pb-4 border-b border-slate-100 mb-6">
                 <div>
                     <h2 class="text-lg font-bold text-slate-900">Deskripsi & Spesifikasi Barang</h2>
-                    <p class="text-xs text-slate-500 mt-0.5">Diformat dengan Toast UI Editor / Markdown</p>
+                    <p class="text-xs text-slate-600 mt-0.5">Diformat dengan Toast UI Editor / Markdown</p>
                 </div>
-                <button wire:click="openEditModal" class="inline-flex items-center space-x-1 px-3 py-1.5 text-xs font-semibold text-blue-600 hover:text-blue-700 hover:bg-blue-50 border border-blue-200 rounded-lg transition">
+                <button wire:click="openEditModal" class="inline-flex items-center space-x-1 px-3 py-1.5 text-xs font-semibold text-blue-700 hover:text-blue-800 hover:bg-blue-50 border border-blue-200 rounded-lg transition">
                     <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/></svg>
                     <span>Ubah Deskripsi</span>
                 </button>
@@ -190,11 +192,11 @@
                     <div x-ref="viewerContainer"></div>
                 </div>
             @else
-                <div class="py-12 text-center text-slate-400">
-                    <svg class="w-10 h-10 mx-auto mb-2 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
-                    <p class="text-sm font-medium text-slate-600">Belum ada deskripsi untuk barang ini</p>
-                    <p class="text-xs text-slate-400 mt-1">Tambahkan catatan spesifikasi atau lokasi penyimpanan dengan Toast UI Editor.</p>
-                    <button wire:click="openEditModal" class="mt-4 px-3.5 py-1.5 text-xs font-semibold text-blue-600 hover:text-blue-700 bg-blue-50 hover:bg-blue-100 rounded-lg transition">
+                <div class="py-12 text-center text-slate-600">
+                    <svg class="w-10 h-10 mx-auto mb-2 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+                    <p class="text-sm font-medium text-slate-700">Belum ada deskripsi untuk barang ini</p>
+                    <p class="text-xs text-slate-600 mt-1">Tambahkan catatan spesifikasi atau lokasi penyimpanan dengan Toast UI Editor.</p>
+                    <button wire:click="openEditModal" class="mt-4 px-3.5 py-1.5 text-xs font-semibold text-blue-700 hover:text-blue-800 bg-blue-50 hover:bg-blue-100 rounded-lg transition">
                         + Tambahkan Deskripsi Sekarang
                     </button>
                 </div>
